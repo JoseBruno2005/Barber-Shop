@@ -1,5 +1,7 @@
 import 'package:barbeariaflutter/pages/login_page.dart';
+import 'package:barbeariaflutter/shared/tema.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cadastra extends StatefulWidget {
   const Cadastra({super.key});
@@ -10,40 +12,54 @@ class Cadastra extends StatefulWidget {
 
 class _cadastraState extends State<Cadastra> {
 
+  
+  TextEditingController _nomeController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _telefoneController = TextEditingController();
+  TextEditingController _senhaController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
+    var largura = MediaQuery.of(context).size.width;
+    var altura = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xFF353C3F),
+      backgroundColor: tema().corDeFundo,
       body: Column(
         children: [
-          const Padding(
+
+             Image.asset('assets/Logo_Barbearia_ilustrado_Cinza-removebg-preview.png', 
+             width: largura ,height: 200),
+
+           Padding(
             padding: EdgeInsets.only(right: 200, top: 10),
             child: Text(
               'Nome:',
               style: TextStyle(
                 fontSize: 22,
-                color: Color(0xFFD6F1FD)
+                color: tema().corIcones
               ),
             ),
           ),
 
           Container(
-            width: 320,
+            width: largura-32,
             height: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
+              color: tema().azulCampoTexto,
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
+              controller: _nomeController,
               decoration: InputDecoration(
-                prefixIcon: const Icon(
+                prefixIcon:  Icon(
                   Icons.person,
-                  color: Color(0xFFD6F1FD),
+                  color: tema().corIcones,
                 ),
                 hintText: "Digite seu nome",
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF677B83)
+                  color: tema().corTitulosCampos
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -53,34 +69,35 @@ class _cadastraState extends State<Cadastra> {
             ),
           ),
 
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(right: 200, top: 10),
             child: Text(
               'Email:',
               style: TextStyle(
                 fontSize: 22,
-                color: Color(0xFFD6F1FD)
+                color: tema().corIcones
               ),
             ),
           ),
 
           Container(
-            width: 320,
+            width: largura-32,
             height: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
+              color: tema().azulCampoTexto,
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
+              controller: _emailController,
               decoration: InputDecoration(
-                prefixIcon: const Icon(
+                prefixIcon:  Icon(
                   Icons.email,
-                  color: Color(0xFFD6F1FD),
+                  color: tema().corIcones,
                 ),
                 hintText: "Digite seu email",
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF677B83)
+                  color: tema().corTitulosCampos
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -90,71 +107,75 @@ class _cadastraState extends State<Cadastra> {
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.only(right: 200, top: 10),
-            child: Text(
-              'Senha:',
-              style: TextStyle(
-                fontSize: 22,
-                color: Color(0xFFD6F1FD)
-              ),
-            ),
-          ),
 
-          Container(
-            width: 320,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
-              borderRadius: BorderRadius.circular(20)
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(
-                  Icons.lock,
-                  color: Color(0xFFD6F1FD),
-                ),
-                hintText: "Digite sua senha",
-                hintStyle: const TextStyle(
-                  fontSize: 20,
-                  color: Color(0xFF677B83)
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none
-                )
-              ),
-            ),
-          ),
-
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(right: 200, top: 10),
             child: Text(
               'Telefone:',
               style: TextStyle(
                 fontSize: 22,
-                color: Color(0xFFD6F1FD)
+                color: tema().corIcones
               ),
             ),
           ),
 
           Container(
-            width: 320,
+           width: largura-32,
             height: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
+              color: tema().azulCampoTexto,
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
+              controller: _telefoneController,
               decoration: InputDecoration(
-                prefixIcon: const Icon(
+                prefixIcon:  Icon(
                   Icons.call_outlined,
-                  color: Color(0xFFD6F1FD),
+                  color: tema().corIcones,
                 ),
                 hintText: "Telefone",
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF677B83)
+                  color: tema().corTitulosCampos
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none
+                )
+              ),
+            ),
+          ),
+
+            Padding(
+            padding: EdgeInsets.only(right: 200, top: 10),
+            child: Text(
+              'Senha:',
+              style: TextStyle(
+                fontSize: 22,
+                color: tema().corIcones
+              ),
+            ),
+          ),
+
+          Container(
+            width: largura-32,
+            height: 50,
+            decoration: BoxDecoration(
+              color: tema().azulCampoTexto,
+              borderRadius: BorderRadius.circular(20)
+            ),
+            child: TextField(
+              obscureText: true,
+              controller: _senhaController,
+              decoration: InputDecoration(
+                prefixIcon:  Icon(
+                  Icons.lock,
+                  color: tema().corIcones,
+                ),
+                hintText: "Digite sua senha",
+                hintStyle:  TextStyle(
+                  fontSize: 20,
+                  color: tema().corTitulosCampos
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -168,11 +189,11 @@ class _cadastraState extends State<Cadastra> {
             padding: const EdgeInsets.only(left: 200, top: 8),
             child: Row(
               children: [
-                const Text(
+                 Text(
                   'Já tem conta?',
                   style: TextStyle(
                     fontSize: 15,
-                    color: Color(0xFFD6F1FD)
+                    color: tema().corIcones
                   ),
                 ),
                 Padding(
@@ -184,12 +205,12 @@ class _cadastraState extends State<Cadastra> {
                         MaterialPageRoute(builder: (context) => loginPage(),));
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(0, 0), backgroundColor: Colors.transparent, // Remove o tamanho mínimo do botão, deixa-lo transparente
-                      padding: EdgeInsets.zero, // Remove o preenchimento interno do botão
-                      elevation: 0, // Define o fundo do botão como transparente
+                      minimumSize: Size(0, 0), backgroundColor: Colors.transparent,
+                      padding: EdgeInsets.zero, 
+                      elevation: 0, 
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0), // Remove o arredondamento do botão
-                        side: BorderSide.none, // Remove a borda do botão
+                        borderRadius: BorderRadius.circular(0), 
+                        side: BorderSide.none, 
                       ),
                     ),
                     child: Text('Entrar'), 
@@ -202,9 +223,14 @@ class _cadastraState extends State<Cadastra> {
            Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Container(
-              width: 320,
+               width: largura-32,
               height: 50,
-              child: ElevatedButton(onPressed: (){
+              child: ElevatedButton(onPressed: ()async{
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString(tema().email, _emailController.text);
+              prefs.setString(tema().senha, _senhaController.text); 
+              prefs.setString(tema().nome, _nomeController.text);
+              prefs.setString(tema().telefone, _telefoneController.text);     
                 Navigator.push(context, 
                   MaterialPageRoute(builder: (context) => loginPage(),)
                 );

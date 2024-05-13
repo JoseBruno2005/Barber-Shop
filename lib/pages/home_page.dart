@@ -2,8 +2,10 @@ import 'package:barbeariaflutter/pages/agendamento_page.dart';
 import 'package:barbeariaflutter/pages/barba_bigode_page.dart';
 import 'package:barbeariaflutter/pages/corte_tradicional.dart';
 import 'package:barbeariaflutter/pages/perfil_page.dart';
+import 'package:barbeariaflutter/shared/tema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,8 +15,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+ Future<String> carregarDados(String dado) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(dado=="nome"){
+    String data = prefs.getString(tema().nome)!;
+    return data;
+    }else if(dado=="email"){
+    String data = prefs.getString(tema().email)!;
+    return data;
+    }else if(dado=="telefone"){
+    String data = prefs.getString(tema().telefone)!;
+    return data;
+    }else return "erro";
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
+    var largura = MediaQuery.of(context).size.width;
+    var altura = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFF353C3F),
       appBar: AppBar(
@@ -39,46 +61,66 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 20, right: 300),
-            child: Text(
-              'OLÁ,',
-              style: TextStyle(
-                color: Color(0xFFD6F2FF),
-                fontSize: 35,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 250),
-            child: Text(
-              '{{nome cliente}}',
-              style: TextStyle(
-                color: Color(0xFFAD9472),
-                fontSize: 35,
-                fontWeight: FontWeight.w900
-              ),
-            ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Image.asset('assets/barbeariahome.jpg'),
-          ),
 
-          const Padding(
-            padding: EdgeInsets.only(top: 10, right: 270),
-            child: Text(
-              'Serviços:',
-              style: TextStyle(
-                fontSize: 30,
-                color: Color(0xFFD6F2FF),
-                fontWeight: FontWeight.w500
-              ),
+      
+            Padding(
+              padding: const EdgeInsets.only(top: 8,left: 2),
+              child: Text(
+                  'OLÁ,',
+                  style: TextStyle(
+                    color: tema().corTextoAzul,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold
+                  ),
+                  textAlign: TextAlign.start,
+                ),
             ),
-          ),
+          
+          
+            Padding(
+             padding: const EdgeInsets.only(top: 8,left: 2),
+             child: FutureBuilder<String>(
+          future: carregarDados(tema().nome),
+          builder: ((context, snapshot){
+            return Text('${snapshot.data}'+".",
+            style: TextStyle(
+                  color: tema().corTextoMarrom,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900
+                ),);
+          }),
+        ) ,
+           ),
+          
+          
+         Padding(
+  padding: const EdgeInsets.all(16),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(10), 
+    child: Image.asset(
+      tema().imagemHome,
+      height: 200,
+      width: largura - 24,
+      fit: BoxFit.cover, 
+    ),
+  ),
+),
+
+
+             Padding(
+               padding: const EdgeInsets.only(top: 8,left: 2),
+               child: Text(
+                'Serviços:',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: tema().corTextoAzul,
+                  fontWeight: FontWeight.w500
+                ),
+                           ),
+             ),
+          
 
           Padding(
             padding: const EdgeInsets.only(top: 25, left: 15),
@@ -93,15 +135,15 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
-                  backgroundColor: Color(0xFF16191A),
-                  minimumSize: Size(100, 110)
+                  backgroundColor: tema().pretoBotoes,
+                  minimumSize: Size(80, 80)
                   ),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFFD6F3FF), // Cor padrão para o texto
+                        color: tema().corTextoAzul,
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -110,7 +152,7 @@ class _HomeState extends State<Home> {
                           TextSpan(
                             text: 'TRADICIONAL',
                             style: TextStyle(
-                              color: Color(0xFFAD9472)
+                              color: tema().corTextoMarrom
                             )
                           )
                         ]
@@ -127,15 +169,15 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
-                  backgroundColor: Color(0xFF16191A),
-                  minimumSize: Size(170, 110)
+                  backgroundColor: tema().pretoBotoes,
+                  minimumSize: Size(80, 80)
                   ),
                     child: RichText(
-                      text: const TextSpan(
+                      text:  TextSpan(
                         style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFFD6F3FF),
+                        color: tema().corTextoAzul,
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -144,7 +186,7 @@ class _HomeState extends State<Home> {
                           TextSpan(
                             text: ' BIGODE',
                             style: TextStyle(
-                              color: Color(0xFFAD9472)
+                              color: tema().corTextoMarrom
                             )
                           )
                         ]
@@ -169,15 +211,15 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
-                  backgroundColor: Color(0xFF16191A),
-                  minimumSize: Size(180, 110)
+                  backgroundColor: tema().pretoBotoes,
+                  minimumSize: Size(80, 80)
                   ),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFFD6F3FF), // Cor padrão para o texto
+                        color: tema().corTextoAzul, // Cor padrão para o texto
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -186,7 +228,7 @@ class _HomeState extends State<Home> {
                           TextSpan(
                             text: ' PELE',
                             style: TextStyle(
-                              color: Color(0xFFAD9472)
+                              color: tema().corTextoMarrom
                             )
                           )
                         ]
@@ -203,15 +245,15 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
-                  backgroundColor: Color(0xFF16191A),
-                  minimumSize: Size(170, 110)
+                  backgroundColor: tema().pretoBotoes,
+                  minimumSize: Size(80, 80)
                   ),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFFD6F3FF),
+                        color: tema().corTextoAzul,
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -220,7 +262,7 @@ class _HomeState extends State<Home> {
                           TextSpan(
                             text: ' SOBRANCELHA',
                             style: TextStyle(
-                              color: Color(0xFFAD9472)
+                              color: tema().corTextoMarrom
                             )
                           )
                         ]

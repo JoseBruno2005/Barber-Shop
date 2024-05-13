@@ -1,7 +1,9 @@
 import 'package:barbeariaflutter/pages/cadastrar_page.dart';
 import 'package:barbeariaflutter/pages/home_page.dart';
+import 'package:barbeariaflutter/shared/tema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({super.key});
@@ -11,26 +13,32 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _senhaController = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF353C3F),
+      backgroundColor: tema().corDeFundo,
       body: Column(
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(top: 40, bottom: 5),
             child: Image(
               image: AssetImage('assets/Logo_Barbearia_ilustrado_sem-titulo.png')
             ),
           ),
 
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(right: 200),
             child: Text(
               'Email:',
               style: TextStyle(
                 fontSize: 22,
-                color: Color(0xFFD6F1FD)
+                color: tema().corIcones
               ),
             ),
           ),
@@ -39,19 +47,20 @@ class _loginPageState extends State<loginPage> {
             width: 320,
             height: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
+              color: tema().azulCampoTexto,
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
+              controller: _emailController,
               decoration: InputDecoration(
-                prefixIcon: const Icon(
+                prefixIcon:  Icon(
                   Icons.email,
-                  color: Color(0xFFD6F1FD),
+                  color: tema().corIcones,
                 ),
                 hintText: "Digite seu e-mail",
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF677B83)
+                  color: tema().corTitulosCampos
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -61,13 +70,13 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
 
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(right: 200, top: 10),
             child: Text(
               'Senha:',
               style: TextStyle(
                 fontSize: 22,
-                color: Color(0xFFD6F1FD)
+                color: tema().corIcones,
               ),
             ),
           ),
@@ -76,19 +85,21 @@ class _loginPageState extends State<loginPage> {
             width: 320,
             height: 50,
             decoration: BoxDecoration(
-              color: Color(0xFF4B5D65),
+              color: tema().azulCampoTexto,
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
+              controller: _senhaController,
+              obscureText: true,
               decoration: InputDecoration(
-                prefixIcon: const Icon(
+                prefixIcon:  Icon(
                   Icons.lock,
-                  color: Color(0xFFD6F1FD),
+                  color: tema().corIcones,
                 ),
                 hintText: "Digite sua senha",
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF677B83)
+                  color: tema().corTitulosCampos
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -98,14 +109,14 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 150, top: 8),
+            padding: EdgeInsets.only(left: 150, top: 8),
             child: Row(
               children: [
-                const Text(
+                 Text(
                   'Não Tem Conta?',
                   style: TextStyle(
                     fontSize: 15,
-                    color: Color(0xFFD6F1FD)
+                    color: tema().corTextoAzul
                   ),
                 ),
                 Padding(
@@ -117,12 +128,12 @@ class _loginPageState extends State<loginPage> {
                         MaterialPageRoute(builder: (context) => Cadastra(),));
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(0, 0), backgroundColor: Colors.transparent, // Remove o tamanho mínimo do botão, deixa-lo transparente
-                      padding: EdgeInsets.zero, // Remove o preenchimento interno do botão
-                      elevation: 0, // Define o fundo do botão como transparente
+                      minimumSize: Size(0, 0), backgroundColor: Colors.transparent,
+                      padding: EdgeInsets.zero, 
+                      elevation: 0, 
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0), // Remove o arredondamento do botão
-                        side: BorderSide.none, // Remove a borda do botão
+                        borderRadius: BorderRadius.circular(0), 
+                        side: BorderSide.none, 
                       ),
                     ),
                     child: Text('Cadastrar'), 
@@ -137,10 +148,22 @@ class _loginPageState extends State<loginPage> {
             child: Container(
               width: 320,
               height: 50,
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => Home(),)
-                );
+              child: ElevatedButton(onPressed: ()async{
+
+                try {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              String email = prefs.getString(tema().email)!;
+              String senha = prefs.getString(tema().senha)!;
+
+                bool emailCorreto =_emailController.text==email;
+                bool senhaCorreta = _senhaController.text==senha;
+                if( senhaCorreta && emailCorreto ){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home())); 
+                }
+              } on Exception catch (e) {
+                //
+              }
+
               }, 
               child: const Text(
                 'Login',
