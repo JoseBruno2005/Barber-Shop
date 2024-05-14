@@ -2,6 +2,7 @@ import 'package:barbeariaflutter/pages/agendamento_page.dart';
 import 'package:barbeariaflutter/pages/home_page.dart';
 import 'package:barbeariaflutter/pages/perfil_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class corteTradicional extends StatefulWidget {
   const corteTradicional({super.key});
@@ -13,6 +14,8 @@ class corteTradicional extends StatefulWidget {
 class _corteTradicionalState extends State<corteTradicional> {
   @override
   Widget build(BuildContext context) {
+    var largura = MediaQuery.of(context).size.width;
+    var altura = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFF353C3F),
       appBar: AppBar(
@@ -74,18 +77,24 @@ class _corteTradicionalState extends State<corteTradicional> {
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.only(top: 35),
-            child: Image(image: 
-            AssetImage('assets/corte.jpg')
+                  Padding(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10), 
+                child: Image.asset(
+                  'assets/corte.jpg',
+                  height: 200,
+                  width: largura - 24,
+                  fit: BoxFit.cover, 
+                ),
+              ),
             ),
-          ),
 
           Padding(
-            padding: const EdgeInsets.only(top: 60),
+            padding: const EdgeInsets.all(8),
             child: Container(
-              width: 500,
-              height: 328,
+              width: largura-8,
+              height: 230,
               decoration: BoxDecoration(
                 color: Color(0xFF4B5D65),
                 borderRadius: BorderRadius.circular(15)
@@ -93,8 +102,9 @@ class _corteTradicionalState extends State<corteTradicional> {
               child: Column(
                 children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -102,16 +112,16 @@ class _corteTradicionalState extends State<corteTradicional> {
                         'Corte na tesoura',
                         style: TextStyle(
                           color: Color(0xFFD6F1FD),
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
                     const Text(
-                      ' RS15',
+                      ' R15',
                       style: TextStyle(
                         color: Color(0xFFAD9472),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -119,22 +129,25 @@ class _corteTradicionalState extends State<corteTradicional> {
                       ':',
                       style: TextStyle(
                         color: Color(0xFFD6F1FD),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding:  EdgeInsets.all(8),
                       child: Container(
-                        width: 138,
-                        height: 40,
+                     
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: ()async{
+                             SharedPreferences prefs = await SharedPreferences.getInstance();
+                             prefs.setString("tipoCorte", "Tradicional");
+                             prefs.setString("corteAtual", "Corte na tesoura");
                             Navigator.push(context, 
                               MaterialPageRoute(builder: (context) => agendamento(),) //se o usuario clicar nesse butão deve ser mandado o nome do serviço para a pagina agendamento nesse caso serri corte na tesoura
                             );
                           },
                           style: ElevatedButton.styleFrom(
+                    
                             backgroundColor: Color(0xFF000000),
                             alignment: Alignment.center,
                             shape: RoundedRectangleBorder(
@@ -157,16 +170,18 @@ class _corteTradicionalState extends State<corteTradicional> {
                                 ),
                 ),
               Padding(
-                padding: const EdgeInsets.only(top: 25),
+                padding: const EdgeInsets.only(top: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Padding(
+
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Corte Degrade',
                         style: TextStyle(
                           color: Color(0xFFD6F1FD),
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -175,7 +190,7 @@ class _corteTradicionalState extends State<corteTradicional> {
                       ' RS20',
                       style: TextStyle(
                         color: Color(0xFFAD9472),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -183,19 +198,22 @@ class _corteTradicionalState extends State<corteTradicional> {
                       ':',
                       style: TextStyle(
                         color: Color(0xFFD6F1FD),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8, left: 30),
+                      padding: const EdgeInsets.all(8),
                       child: Container(
-                        width: 138,
-                        height: 40,
+                       
                         child: ElevatedButton(
-                          onPressed: (){
+                          
+                          onPressed: ()async{
+                           SharedPreferences prefs = await SharedPreferences.getInstance();
+                           prefs.setString("tipoCorte", "Tradicional");
+                             prefs.setString("corteAtual", "Corte Degrade");
                             Navigator.push(context, 
-                              MaterialPageRoute(builder: (context) => agendamento(),)
+                              MaterialPageRoute(builder: (context) => agendamento(),) //se o usuario clicar nesse butão deve ser mandado o nome do serviço para a pagina agendamento nesse caso serri corte na tesoura
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -216,13 +234,14 @@ class _corteTradicionalState extends State<corteTradicional> {
                           )
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 35),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -230,7 +249,7 @@ class _corteTradicionalState extends State<corteTradicional> {
                         'Corte Moicano',
                         style: TextStyle(
                           color: Color(0xFFD6F1FD),
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -239,7 +258,7 @@ class _corteTradicionalState extends State<corteTradicional> {
                       ' RS20',
                       style: TextStyle(
                         color: Color(0xFFAD9472),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -247,19 +266,21 @@ class _corteTradicionalState extends State<corteTradicional> {
                       ':',
                       style: TextStyle(
                         color: Color(0xFFD6F1FD),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8, left: 30),
+                      padding: const EdgeInsets.all(8),
                       child: Container(
-                        width: 138,
-                        height: 40,
+                       
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: ()async{
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("tipoCorte", "Tradicional");
+                             prefs.setString("corteAtual", "Corte Moicano");
                             Navigator.push(context, 
-                              MaterialPageRoute(builder: (context) => agendamento(),)
+                              MaterialPageRoute(builder: (context) => agendamento(),) //se o usuario clicar nesse butão deve ser mandado o nome do serviço para a pagina agendamento nesse caso serri corte na tesoura
                             );
                           },
                           style: ElevatedButton.styleFrom(

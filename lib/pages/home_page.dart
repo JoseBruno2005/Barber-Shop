@@ -204,8 +204,14 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => agendamento(),));
+                  child: ElevatedButton(onPressed: ()async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("corteAtual", "Limpeza de pele");
+                            prefs.setString("tipoCorte", "Especial");
+                            Navigator.push(context, 
+                              MaterialPageRoute(builder: (context) => agendamento(),) 
+                            );
+                   
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -219,7 +225,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
-                        color: tema().corTextoAzul, // Cor padrão para o texto
+                        color: tema().corTextoAzul, 
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -238,7 +244,10 @@ class _HomeState extends State<Home> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(onPressed: (){
+                  child: ElevatedButton(onPressed: ()async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("corteAtual", "Sobrancelha");
+                            prefs.setString("tipoCorte", "Especial");
                     Navigator.push(context, MaterialPageRoute(builder: (context) => agendamento(),));
                   },
                   style: ElevatedButton.styleFrom(

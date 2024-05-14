@@ -2,6 +2,7 @@ import 'package:barbeariaflutter/pages/agendamento_page.dart';
 import 'package:barbeariaflutter/pages/home_page.dart';
 import 'package:barbeariaflutter/pages/perfil_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class barbaBigode extends StatefulWidget {
   const barbaBigode({super.key});
@@ -13,6 +14,8 @@ class barbaBigode extends StatefulWidget {
 class _barbaBigodeState extends State<barbaBigode> {
   @override
   Widget build(BuildContext context) {
+    var largura = MediaQuery.of(context).size.width;
+    var altura = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFF353C3F),
       appBar: AppBar(
@@ -50,20 +53,22 @@ class _barbaBigodeState extends State<barbaBigode> {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 30, right: 250),
-            child: Text(
-              'BARBA E',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFD6F3FF)
+         Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Text(
+                'BARBA E',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFD6F3FF)
+                ),
               ),
-            ),
-          ),
+         ),
+          
           const Padding(
-            padding: EdgeInsets.only(right: 265),
+            padding: EdgeInsets.all(8),
             child: Text(
               'BIGODE',
               style: TextStyle(
@@ -74,17 +79,23 @@ class _barbaBigodeState extends State<barbaBigode> {
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.only(top: 35),
-            child: Image(image: 
-            AssetImage('assets/barba.jpg')
+        Padding(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10), 
+                child: Image.asset(
+                  'assets/barba.jpg',
+                  height: 200,
+                  width: largura - 24,
+                  fit: BoxFit.cover, 
+                ),
+              ),
             ),
-          ),
 
           Padding(
-            padding: const EdgeInsets.only(top: 152),
+            padding: const EdgeInsets.only(top: 10,left: 4),
             child: Container(
-              width: 500,
+              width: largura-8,
               height: 200,
               decoration: BoxDecoration(
                 color: Color(0xFF4B5D65),
@@ -102,7 +113,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                         'Corte na tesoura',
                         style: TextStyle(
                           color: Color(0xFFD6F1FD),
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -111,7 +122,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                       ' RS15',
                       style: TextStyle(
                         color: Color(0xFFAD9472),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -119,7 +130,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                       ':',
                       style: TextStyle(
                         color: Color(0xFFD6F1FD),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -129,7 +140,10 @@ class _barbaBigodeState extends State<barbaBigode> {
                         width: 138,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: ()async{
+                             SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("tipoCorte", "Barba & Bigode");
+                             prefs.setString("corteAtual", "Corte na tesoura");
                             Navigator.push(context, 
                               MaterialPageRoute(builder: (context) => agendamento(),) //se o usuario clicar nesse butão deve ser mandado o nome do serviço para a pagina agendamento nesse caso serri corte na tesoura
                             );
@@ -166,7 +180,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                         'Corte Degrade',
                         style: TextStyle(
                           color: Color(0xFFD6F1FD),
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -175,7 +189,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                       ' RS20',
                       style: TextStyle(
                         color: Color(0xFFAD9472),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -183,7 +197,7 @@ class _barbaBigodeState extends State<barbaBigode> {
                       ':',
                       style: TextStyle(
                         color: Color(0xFFD6F1FD),
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                     ),
@@ -193,9 +207,12 @@ class _barbaBigodeState extends State<barbaBigode> {
                         width: 138,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: ()async{
+                             SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("tipoCorte", "Barba & Bigode");
+                             prefs.setString("corteAtual", "Corte na degrade");
                             Navigator.push(context, 
-                              MaterialPageRoute(builder: (context) => agendamento(),)
+                              MaterialPageRoute(builder: (context) => agendamento(),) //se o usuario clicar nesse butão deve ser mandado o nome do serviço para a pagina agendamento nesse caso serri corte na tesoura
                             );
                           },
                           style: ElevatedButton.styleFrom(

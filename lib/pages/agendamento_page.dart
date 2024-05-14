@@ -1,7 +1,9 @@
 import 'package:barbeariaflutter/pages/corte_tradicional.dart';
 import 'package:barbeariaflutter/pages/home_page.dart';
+import 'package:barbeariaflutter/shared/tema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class agendamento extends StatefulWidget {
   const agendamento({super.key});
@@ -10,9 +12,22 @@ class agendamento extends StatefulWidget {
   State<agendamento> createState() => _agendamentoState();
 }
 
+  TextEditingController _diaMesController = TextEditingController();
+  TextEditingController _horaMinutoController = TextEditingController();
+  TextEditingController _senhaController = TextEditingController();
+
+ Future<String> carregarCorte(String corte) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String data = prefs.getString("corteAtual")!;
+    return data;
+  }
+
+
 class _agendamentoState extends State<agendamento> {
   @override
   Widget build(BuildContext context) {
+     var largura = MediaQuery.of(context).size.width;
+    var altura = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFF353C3F),
       appBar: AppBar(
@@ -28,45 +43,54 @@ class _agendamentoState extends State<agendamento> {
       ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top:30, right: 250),
+          Container(
+            alignment: Alignment.topLeft,
             child: Text(
-              'SERVIÇO:',
-              style: TextStyle(
-              color: Color(0xFFD6F2FF),
-              fontSize: 28,
-              fontWeight: FontWeight.bold
-              )
-            ),
+              
+                'SERVIÇO:',
+                style: TextStyle(
+                color: Color(0xFFD6F2FF),
+                fontSize: 28,
+                fontWeight: FontWeight.bold
+                )
+              ),
           ),
-          const Row(
+          
+           Row(
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  'Corte ',
+           
+                 Text(
+                  'Corte: ',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFD6F3FF)
                   )
                 ),
+              
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+          future: carregarCorte("corteAtual"),
+          builder: ((context, snapshot){
+            return Text('${snapshot.data}'+".",
+            style: TextStyle(
+                  color: tema().corTextoMarrom,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900
+                ),);
+          }),
+        ) ,
               ),
-              Text(
-                  '{{SharedPreferes para colocar o nome do serviço}}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFAD9472)
-                  )
-                )
             ],
           ),
+
+
           Padding(
-            padding: const EdgeInsets.only(top: 25),
+            padding: const EdgeInsets.only(top: 10,bottom: 10),
             child: Container(
-              width: 350,
-              height: 500,
+              width: largura-8,
+              height: 400,
               decoration: BoxDecoration(
                 color: Color(0xFF4B5D65),
                 borderRadius: BorderRadius.circular(15)
@@ -94,12 +118,14 @@ class _agendamentoState extends State<agendamento> {
                         borderRadius: BorderRadius.circular(20)
                       ),
                       child: TextField(
+                        controller: _diaMesController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.date_range,
                             color: Color(0xFFAD9472),
                             size: 30,
                           ),
+                          
                           hintText: "DD/MM",
                           hintStyle: const TextStyle(
                             fontSize: 20,
@@ -134,6 +160,7 @@ class _agendamentoState extends State<agendamento> {
                         borderRadius: BorderRadius.circular(20)
                       ),
                       child: TextField(
+                        controller: _horaMinutoController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.date_range,
@@ -154,7 +181,7 @@ class _agendamentoState extends State<agendamento> {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(right: 200, top: 50),
+                    padding: EdgeInsets.only(right: 200, top: 10),
                     child: Text(
                       'Senha:',
                       style: TextStyle(
@@ -171,6 +198,7 @@ class _agendamentoState extends State<agendamento> {
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: TextField(
+                      controller: _senhaController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
                           Icons.lock,
@@ -199,10 +227,16 @@ class _agendamentoState extends State<agendamento> {
               child: Container(
                 width: 170,
                 height: 50,
-                child: ElevatedButton(onPressed: (){
-                  Navigator.push(context, 
+                child: ElevatedButton(onPressed: ()async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  if(_senhaController.text==prefs.getString(tema().senha)){
+                    prefs.setString("diaMesAgendado",_diaMesController.text);
+                   prefs.setString("horaMinutoAgendado", _horaMinutoController.text);
+                      Navigator.push(context, 
                     MaterialPageRoute(builder: (context) => Home(),)
                   );
+                  }
+               
                 }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF000000),

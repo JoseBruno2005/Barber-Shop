@@ -1,3 +1,5 @@
+import 'package:barbeariaflutter/pages/agendamento_page.dart';
+import 'package:barbeariaflutter/pages/detalhes_agendamento_page.dart';
 import 'package:barbeariaflutter/pages/home_page.dart';
 import 'package:barbeariaflutter/pages/editar_dados_page.dart';
 import 'package:barbeariaflutter/shared/tema.dart';
@@ -225,7 +227,31 @@ class _perfilPageState extends State<perfilPage> {
               )
               ),
             ),
-          )
+          ),
+
+             Padding(
+            padding:  EdgeInsets.all(16),
+            child: Container(
+               width: largura-32,
+              height: 50,
+              child: ElevatedButton(onPressed: (){
+               
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => DetalhesAgendamentoPage(),)
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF000000)
+              ),
+              child: const Text('Ver agendamento',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white
+                ),
+              )
+              ),
+            ),
+          ),
 
 
          /*
