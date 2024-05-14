@@ -198,6 +198,7 @@ class _agendamentoState extends State<agendamento> {
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: TextField(
+                      obscureText: true,
                       controller: _senhaController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
