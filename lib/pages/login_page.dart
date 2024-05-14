@@ -13,7 +13,7 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
-
+bool _obscureText = true;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _senhaController = TextEditingController();
 
@@ -90,12 +90,24 @@ class _loginPageState extends State<loginPage> {
             ),
             child: TextField(
               controller: _senhaController,
-              obscureText: true,
+              obscureText: _obscureText,
               decoration: InputDecoration(
                 prefixIcon:  Icon(
                   Icons.lock,
                   color: tema().corIcones,
                 ),
+
+                                     suffixIcon: IconButton(
+          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: Color(0xFFD6F1FD),),
+          onPressed: () {
+            setState(() {
+              if(_obscureText==true){
+                _obscureText=false;
+              }else{_obscureText=true;}
+            });
+          },
+        ),
+
                 hintText: "Digite sua senha",
                 hintStyle:  TextStyle(
                   fontSize: 20,

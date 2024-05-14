@@ -15,7 +15,8 @@ class agendamento extends StatefulWidget {
   TextEditingController _diaMesController = TextEditingController();
   TextEditingController _horaMinutoController = TextEditingController();
   TextEditingController _senhaController = TextEditingController();
-
+  bool _obscureText = true;
+  
  Future<String> carregarCorte(String corte) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String data = prefs.getString("corteAtual")!;
@@ -198,7 +199,7 @@ class _agendamentoState extends State<agendamento> {
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: TextField(
-                      obscureText: true,
+                      obscureText: _obscureText,
                       controller: _senhaController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
@@ -210,6 +211,16 @@ class _agendamentoState extends State<agendamento> {
                           fontSize: 20,
                           color: Color(0xFF74909C)
                         ),
+                                suffixIcon: IconButton(
+          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: Color(0xFFD6F1FD),),
+          onPressed: () {
+            setState(() {
+              if(_obscureText==true){
+                _obscureText=false;
+              }else{_obscureText=true;}
+            });
+          },
+        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide.none

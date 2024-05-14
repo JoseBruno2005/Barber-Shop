@@ -9,7 +9,8 @@ class AlterarSenhaPage extends StatefulWidget {
   @override
   State<AlterarSenhaPage> createState() => _AlterarSenhaPageState();
 }
-
+  bool _obscureText = true;
+  bool _obscureTextNova = true;
   TextEditingController _senhaController = TextEditingController();
   TextEditingController _senhaNovaController = TextEditingController();
 
@@ -56,14 +57,23 @@ class _AlterarSenhaPageState extends State<AlterarSenhaPage> {
                 borderRadius: BorderRadius.circular(20)
               ),
               child: TextField(
-                obscureText: true,
+                obscureText: _obscureText,
                 controller: _senhaController,
                 decoration: InputDecoration(
                   prefixIcon:  Icon(
                     Icons.lock,
                     color: tema().corIcones,
                   ),
-                  
+                                       suffixIcon: IconButton(
+          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: Color(0xFFD6F1FD),),
+          onPressed: () {
+            setState(() {
+              if(_obscureText==true){
+                _obscureText=false;
+              }else{_obscureText=true;}
+            });
+          },
+        ),
                   hintText: "Digite sua senha atual",
                   hintStyle:  TextStyle(
                     fontSize: 20,
@@ -99,14 +109,23 @@ class _AlterarSenhaPageState extends State<AlterarSenhaPage> {
                 borderRadius: BorderRadius.circular(20)
               ),
               child: TextField(
-                obscureText: true,
+                obscureText: _obscureTextNova,
                 controller: _senhaNovaController,
                 decoration: InputDecoration(
                   prefixIcon:  Icon(
                     Icons.lock,
                     color: tema().corIcones,
                   ),
-                  
+                                       suffixIcon: IconButton(
+          icon: Icon(_obscureTextNova ? Icons.visibility : Icons.visibility_off, color: Color(0xFFD6F1FD),),
+          onPressed: () {
+            setState(() {
+              if(_obscureTextNova==true){
+                _obscureTextNova=false;
+              }else{_obscureTextNova=true;}
+            });
+          },
+        ),
                   hintText: "Digite sua nova senha",
                   hintStyle:  TextStyle(
                     fontSize: 20,

@@ -11,6 +11,7 @@ class Cadastra extends StatefulWidget {
 }
 
 class _cadastraState extends State<Cadastra> {
+  bool _obscureText = true;
 
   
   TextEditingController _nomeController = TextEditingController();
@@ -165,7 +166,7 @@ class _cadastraState extends State<Cadastra> {
               borderRadius: BorderRadius.circular(20)
             ),
             child: TextField(
-              obscureText: true,
+              obscureText: _obscureText,
               controller: _senhaController,
               decoration: InputDecoration(
                 prefixIcon:  Icon(
@@ -177,6 +178,18 @@ class _cadastraState extends State<Cadastra> {
                   fontSize: 20,
                   color: tema().corTitulosCampos
                 ),
+
+                     suffixIcon: IconButton(
+          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off, color: Color(0xFFD6F1FD),),
+          onPressed: () {
+            setState(() {
+              if(_obscureText==true){
+                _obscureText=false;
+              }else{_obscureText=true;}
+            });
+          },
+        ),
+
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none
